@@ -31,14 +31,16 @@ dfmodel <- function(x = NULL, p = NULL, output = 'density', type = 'Schechter') 
     return(function(x,p) dfmodel(x, p, type = type))
   }
 
-  # call model function
+ # call model function
   if (type == 'Schechter') {
     f = .dfmodel.Schechter(x = x, p = p, output = output)
   } else if (type == 'MRP') {
     f = .dfmodel.MRP(x = x, p = p, output = output)
   } else if (type == 'PL') {
-    f = .dfmodel.PL(x = x, p = p, output = output)
-  } else {
+      f = .dfmodel.PL(x = x, p = p, output = output)
+  } else if (type == 'DoubleSchechter') {
+      f = .dfmodel.DoubleSchechter(x = x, p = p,output = output)
+  }  else {
     stop('dfmodel: unknown DF type.')
   }
   
@@ -77,7 +79,7 @@ dfmodel <- function(x = NULL, p = NULL, output = 'density', type = 'Schechter') 
   #p[5] = alpha2
   if (output == 'density') {
     mu = 10^(x-p[1])
-    return(log(10)*exp(-mu)* ( 10^p[2]*mu^(p[3]+1) + 10^p[4]*mu^(p[5]+1))
+    return(log(10)*exp(-mu)* ( 10^p[2]*mu^(p[3]+1) + 10^p[4]*mu^(p[5]+1)))
   } else if (output == 'initial') {
     return(c(10.88,-5.90,-0.10,-2.50,-1.00))
   } else if (output == 'equation') {
