@@ -68,7 +68,28 @@ dfmodel <- function(x = NULL, p = NULL, output = 'density', type = 'Schechter') 
   }
   return(NULL)
 }
-
+           
+          
+.dfmodel.DoubleSchechter = function(x = NULL, p = NULL, output = 'density') {
+  # returns the (unlogged) space density of galaxies of mass 10^x
+  #p[1]=log(characteristic mass),p[2]=log(phi1)
+  #p[3]=alpha1,p[4]=log(phi2)
+  #p[5] = alpha2
+  if (output == 'density') {
+    mu = 10^(x-p[1])
+    return(log(10)*exp(-mu)* ( 10^p[2]*mu^(p[3]+1) + 10^p[4]*mu^(p[5]+1))
+  } else if (output == 'initial') {
+    return(c(10.88,-5.90,-0.10,-2.50,-1.00))
+  } else if (output == 'equation') {
+    return('dN/(dVdx) = log(10)*exp(-mu)* ( 10^p[2]*mu^(p[3]+1) + 10^p[4]*mu^(p[5]+1), where mu=10^(x-p[1])')
+  } else if (output == 'names') {
+    names = c(expression('log'[10]*'('*phi['*']*')'),
+              expression('log'[10]*'(M'['*']*')'),
+              expression(alpha))
+    return(names)
+  }
+  return(NULL)
+}
 .dfmodel.MRP = function(x = NULL, p = NULL, output = 'density') {
   # returns the (unlogged) space density of galaxies of mass 10^x
   # p[1]=normalization, p[2]=Ms, p[3]=alpha, p[4]=beta
